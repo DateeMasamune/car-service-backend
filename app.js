@@ -1,4 +1,4 @@
-const express = require('express')()
+const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
@@ -6,8 +6,9 @@ const passport = require('passport')
 const app = express()
 app.use(passport.initialize())
 require('./middleware/passport')(passport)
+const Datastore = require('nedb');
 
-const User = require('../models/User')
+const User = require('./models/User')
 
 const db = {};
 db.users = new Datastore({ filename: 'NeDB/users.db', autoload: true });
@@ -18,7 +19,7 @@ const controller = require('./controllers/auth')
 const carRoutes = require('./routes/car')
 const autoServiceRoutes = require('./routes/autoService')
 
-express.post('api/createuser', (req, res) => {
+app.post('api/createuser', (req, res) => {
   const user =  new User(
     req.body.email,
     bcrypt.hashSync(password, salt),
@@ -35,7 +36,7 @@ express.post('api/createuser', (req, res) => {
   res.status(201).json(user)
 })
 
-express.get('api/getuser/:id', (req, res) => {
+app.get('api/getuser/:id', (req, res) => {
   db.users.findOne({ _id: req.params.id }, (err, user) => {
     if (user) {
       res.status(201).json(user)
