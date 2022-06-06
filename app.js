@@ -19,7 +19,7 @@ const controller = require('./controllers/auth')
 const carRoutes = require('./routes/car')
 const autoServiceRoutes = require('./routes/autoService')
 
-app.post('api/createuser', (req, res) => {
+app.post('/api/createuser', (req, res) => {
   const user =  new User(
     req.body.email,
     bcrypt.hashSync(password, salt),
@@ -36,7 +36,7 @@ app.post('api/createuser', (req, res) => {
   res.status(201).json(user)
 })
 
-app.get('api/getuser/:id', (req, res) => {
+app.get('/api/getuser/:id', (req, res) => {
   db.users.findOne({ _id: req.params.id }, (err, user) => {
     if (user) {
       res.status(201).json(user)
