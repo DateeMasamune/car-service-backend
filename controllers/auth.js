@@ -8,7 +8,7 @@ const User = require('../models/User')
 const errorHandler = require('../utils/errorHandler')
 
 const db = {};
-db.users = new Datastore({ filename: 'NeDB/users.db', autoload: true });
+db.users = new Datastore({ filename: 'NeDB/users', autoload: true });
 db.users.loadDatabase();
 
 module.exports.login = async (req, res) => {
