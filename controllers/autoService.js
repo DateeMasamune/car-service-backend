@@ -1,10 +1,7 @@
-const Datastore = require('nedb');
 const AutoService = require('../models/AutoService')
 const errorHandler = require('../utils/errorHandler')
+const autoServicesDB = require('../NeDB/NeDBInit').initAutoServicesDB()
 
-const db = {};
-db.autoServices = new Datastore({ filename: 'NeDB/autoServices', autoload: true });
-db.autoServices.loadDatabase();
 
 module.exports.create = async (req, res) => {
   const autoService = new AutoService(
@@ -15,7 +12,7 @@ module.exports.create = async (req, res) => {
   )
   console.log('autoService',autoService);
   try {
-    db.autoServices.insert(autoService, (err, autoService) => {
+    autoServicesDB.insert(autoService, (err, autoService) => {
       if (!err) {
         console.log('service has been added', autoService);
         res.status(201).json(autoService)
@@ -27,7 +24,7 @@ module.exports.create = async (req, res) => {
 }
 
 module.exports.remove = async (req, res) => {
-  db.autoServices.remove({ _id: req.params.id }, {}, (err, numRemoved) => {
+  autoServicesDB.remove({ _id: req.params.id }, {}, (err, numRemoved) => {
     if (!err) {
       console.log('service has been removed', numRemoved);
       res.status(201).json(numRemoved)
@@ -36,7 +33,7 @@ module.exports.remove = async (req, res) => {
 }
 
 module.exports.allService = async (req, res) => {
-  db.autoServices.find({}, (err, autoService) => {
+  autoServicesDB.find({}, (err, autoService) => {
     if (!err) {
       console.log('all service', autoService);
       res.status(201).json(autoService)
