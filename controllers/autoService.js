@@ -1,6 +1,6 @@
 const AutoService = require('../models/AutoService')
 const errorHandler = require('../utils/errorHandler')
-const autoServicesDB = require('../NeDB/NeDBInit').initAutoServicesDB()
+const db = require('../NeDB/NeDBInit')
 
 
 module.exports.create = async (req, res) => {
@@ -12,7 +12,7 @@ module.exports.create = async (req, res) => {
   )
   console.log('autoService',autoService);
   try {
-    autoServicesDB.insert(autoService, (err, autoService) => {
+    db.autoServices.insert(autoService, (err, autoService) => {
       if (!err) {
         console.log('service has been added', autoService);
         res.status(201).json(autoService)
@@ -24,7 +24,7 @@ module.exports.create = async (req, res) => {
 }
 
 module.exports.remove = async (req, res) => {
-  autoServicesDB.remove({ _id: req.params.id }, {}, (err, numRemoved) => {
+  db.autoServices.remove({ _id: req.params.id }, {}, (err, numRemoved) => {
     if (!err) {
       console.log('service has been removed', numRemoved);
       res.status(201).json(numRemoved)
@@ -33,7 +33,7 @@ module.exports.remove = async (req, res) => {
 }
 
 module.exports.allService = async (req, res) => {
-  autoServicesDB.find({}, (err, autoService) => {
+  db.autoServices.find({}, (err, autoService) => {
     if (!err) {
       console.log('all service', autoService);
       res.status(201).json(autoService)

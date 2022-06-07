@@ -1,13 +1,13 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const keys = require('../config/keys')
-const usersDB = require('../NeDB/NeDBInit').initUsersDB()
+const db = require('../NeDB/NeDBInit')
 
 const User = require('../models/User')
 const errorHandler = require('../utils/errorHandler')
 
 module.exports.login = async (req, res) => {
-	usersDB.findOne({email: req.body.email}, (err, candidate) => {
+	db.users.findOne({email: req.body.email}, (err, candidate) => {
     if (candidate) {
       const passwordResult = bcrypt.compareSync(req.body.password, candidate.password)
       if (passwordResult) {
@@ -36,7 +36,7 @@ module.exports.login = async (req, res) => {
 }
 
 module.exports.register = async (req, res) => {
-	usersDB.findOne({ email: req.body.email }, (err, candidate) => {
+	db.users.findOne({ email: req.body.email }, (err, candidate) => {
     if (candidate) {
       res.status(409).json({
         message: 'Такой емейл уже занят Попробуйте другой'
@@ -68,7 +68,7 @@ module.exports.register = async (req, res) => {
 
 module.exports.user = async (req, res) => {
   console.log('user',req.params.id);
-  usersDB.findOne({ _id: req.params.id }, (err, user) => {
+  db.users.findOne({ _id: req.params.id }, (err, user) => {
     if (user) {
       res.status(201).json(user)
     } else {

@@ -1,6 +1,6 @@
 const Car = require('../models/Car')
 const errorHandler = require('../utils/errorHandler')
-const carsDB = require('../NeDB/NeDBInit').initCarsDB()
+const db = require('../NeDB/NeDBInit')
 
 module.exports.create = async (req, res) => {
   console.log('req', req.body);
@@ -14,7 +14,7 @@ module.exports.create = async (req, res) => {
     req.body.userId
   )
   try {
-    carsDB.insert(car, (err, car) => {
+    db.cars.insert(car, (err, car) => {
       if (!err) {
         console.log('car has been added', car);
         res.status(201).json(car)
@@ -26,7 +26,7 @@ module.exports.create = async (req, res) => {
 }
 
 module.exports.remove = async (req, res) => {
-  carsDB.remove({ _id: req.params.id }, {}, (err, numRemoved) => {
+  db.cars.remove({ _id: req.params.id }, {}, (err, numRemoved) => {
     if (!err) {
       console.log('car has been removed', numRemoved);
       res.status(201).json(numRemoved)
@@ -39,7 +39,7 @@ module.exports.allCars = async (req, res) => {
 }
 
 module.exports.updateCar = async (req, res) => {
-  carsDB.update({ _id: req.params.id }, req.body, {}, (err, car) => {
+  db.cars.update({ _id: req.params.id }, req.body, {}, (err, car) => {
     if (!err) {
       getAllCars(req, res)
     } else {
@@ -49,7 +49,7 @@ module.exports.updateCar = async (req, res) => {
 }
 
 function getAllCars(req, res) {
-  carsDB.find({}, (err, cars) => {
+  db.cars.find({}, (err, cars) => {
     if (!err) {
       console.log('all cars', cars);
       res.status(201).json(cars)
