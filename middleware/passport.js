@@ -4,7 +4,7 @@ const keys = require('../config/keys')
 const Datastore = require('nedb');
 
 const db = {};
-db.users = new Datastore({ filename: 'NeDB/users.db', autoload: true });
+db.users = new Datastore({ filename: 'NeDB/users', autoload: true });
 db.users.loadDatabase();
 
 const options = {
