@@ -3,7 +3,7 @@ const AutoService = require('../models/AutoService')
 const errorHandler = require('../utils/errorHandler')
 
 const db = {};
-db.autoServices = new Datastore({ filename: 'NeDB/autoServices.db', autoload: true });
+db.autoServices = new Datastore({ filename: 'NeDB/autoServices', autoload: true });
 db.autoServices.loadDatabase();
 
 module.exports.create = async (req, res) => {

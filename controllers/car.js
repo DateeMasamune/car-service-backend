@@ -3,7 +3,7 @@ const Car = require('../models/Car')
 const errorHandler = require('../utils/errorHandler')
 
 const db = {};
-db.cars = new Datastore({ filename: 'NeDB/cars.db', autoload: true });
+db.cars = new Datastore({ filename: 'NeDB/cars', autoload: true });
 db.cars.loadDatabase();
 
 module.exports.create = async (req, res) => {
