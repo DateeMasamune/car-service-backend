@@ -9,5 +9,6 @@ router.post('/create', passport.authenticate('jwt',{session:false}), controller.
 router.delete('/remove/:id', passport.authenticate('jwt',{session:false}), controller.remove)
 // router.get('/allService/', passport.authenticate('jwt',{session:false}), controller.allService)
 router.get('/allService/', controller.allService)
+router.put('/updateService/:id', controller.updateService)
 
 module.exports = router
