@@ -40,3 +40,12 @@ module.exports.allService = async (req, res) => {
     }
   })
 }
+
+module.exports.updateService = async (req, res) => {
+  db.autoServices.update({ _id: req.params.id }, req.body, {}, (err, autoService) => {
+    if (!err) {
+      console.log('all service', autoService);
+      res.status(201).json(autoService)
+    }
+  })
+}
